@@ -29,6 +29,7 @@ server.listen(process.env.PORT, () => {
 app.get('/', (req, res) => {
     res.send("<h1>Hello World</h1>");
 }
+);
 
 
 // mongoose.connect(process.env.MONGO_URL)
