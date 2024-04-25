@@ -29,7 +29,7 @@ export class Question extends BaseEntity{
     @Column({ type: 'varchar', length: 255, nullable: false })
     difficulty: string;
 
-    @Column('text', { array: true, nullable: true })
+    @Column('text', { array: true, default: '{}', nullable: true})
     tags: string[];
 
     @ManyToOne(() => User, user => user.questions,{onDelete: 'CASCADE'})
@@ -43,7 +43,7 @@ export class Question extends BaseEntity{
     last_completion: Date;
 
     @Column({ type: 'timestamp with time zone', nullable: true })
-    next_review: Date;
+    review_date: Date;
 
     @UpdateDateColumn({ type: 'timestamp with time zone', default: () => 'CURRENT_TIMESTAMP', nullable: true })
     last_updated: Date;

@@ -9,19 +9,21 @@ import cors from 'cors';
 import { User } from './entities/User';
 import { myDataSource } from './db/data-source';
 import router from './routes';
-
-//import router from './router';
 import dotenv from 'dotenv'
 
 dotenv.config() 
 const app = express();
 
-app.use(cors({
-  credentials: true,
-}));
+const allowedOrigins = [process.env.LOCAL_HOST, process.env.PROD_HOST];
+
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
+
+app.use(cors(options));
 
 app.use(compression());
-app.use(cookieParser());
+app.use(cookieParser(process.env.JWT_SECRET));
 app.use(bodyParser.json());
 
 const server = http.createServer(app);
