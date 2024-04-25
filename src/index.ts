@@ -6,8 +6,9 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
-import { User } from './entity/User';
+import { User } from './entities/User';
 import { myDataSource } from './db/data-source';
+import router from './routes';
 
 //import router from './router';
 import dotenv from 'dotenv'
@@ -29,42 +30,27 @@ myDataSource
     .initialize()
     .then(() => {
         console.log("Data Source has been initialized!")
+        server.listen(process.env.PORT, () => {
+          console.log('Server running on port:'+process.env.PORT);
+          }
+      );
+      
+      app.get('/', (req, res) => {
+          res.send("<h1>Hello World</h1>");
+      }
+      );
+      
+      app.use('/api/v1', router());
     })
     .catch((err) => {
         console.error("Error during Data Source initialization:", err)
     })
 
 
-server.listen(process.env.PORT, () => {
-    console.log('Server running on http://localhost:'+process.env.PORT);
-    }
-);
 
-app.get('/', (req, res) => {
-    res.send("<h1>Hello World</h1>");
-}
-);
 
-app.get("/users", async function (req: Request, res: Response) {
-  const users = await myDataSource.getRepository(User).find()
-  res.json(users)
-})
+// register routes
 
-app.get("/users/:id", function (req: Request, res: Response) {
-  // here we will have logic to return user by id
-})
-
-app.post("/users", function (req: Request, res: Response) {
-  // here we will have logic to save a user
-})
-
-app.put("/users/:id", function (req: Request, res: Response) {
-  // here we will have logic to update a user by a given user id
-})
-
-app.delete("/users/:id", function (req: Request, res: Response) {
-  // here we will have logic to delete a user by a given user id
-})
 
 
 // mongoose.connect(process.env.MONGO_URL)

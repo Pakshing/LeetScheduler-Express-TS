@@ -11,7 +11,7 @@ export const myDataSource = new DataSource({
     database: process.env.PG_DB,
     synchronize: true,
     logging: false,
-    entities: ["src/entity/*.ts"],
+    entities: ["src/entities/*.ts"],
     subscribers: [],
     migrations: [],
 })

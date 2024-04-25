@@ -5,12 +5,15 @@ import {
     CreateDateColumn,
     ManyToOne,
     Unique,
+    UpdateDateColumn,
+    BaseEntity,
+    JoinColumn,
 } from 'typeorm';
 import { User } from './User';
 
 @Entity('question')
 @Unique(['title', 'owner'])
-export class Question {
+export class Question extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -29,7 +32,8 @@ export class Question {
     @Column('text', { array: true, nullable: true })
     tags: string[];
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, user => user.questions,{onDelete: 'CASCADE'})
+    @JoinColumn({ name: 'owner_id' })
     owner: User;
 
     @CreateDateColumn({ type: 'timestamp with time zone', default: () => 'CURRENT_TIMESTAMP', nullable: true })
@@ -40,4 +44,7 @@ export class Question {
 
     @Column({ type: 'timestamp with time zone', nullable: true })
     next_review: Date;
+
+    @UpdateDateColumn({ type: 'timestamp with time zone', default: () => 'CURRENT_TIMESTAMP', nullable: true })
+    last_updated: Date;
 }
