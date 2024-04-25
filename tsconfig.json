@@ -2,6 +2,8 @@
     "compilerOptions": {
       "module": "NodeNext",
       "moduleResolution": "NodeNext",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
       "baseUrl": "src",
       "outDir": "dist",
       "sourceMap": true,

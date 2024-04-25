@@ -23,6 +23,9 @@ const server = http_1.default.createServer(app);
 server.listen(process.env.PORT, () => {
     console.log('Server running on http://localhost:' + process.env.PORT);
 });
+app.get('/', (req, res) => {
+    res.send("<h1>Hello World</h1>");
+});
 // mongoose.connect(process.env.MONGO_URL)
 //     .then(() => {
 //         console.log("Mongoose connected");
