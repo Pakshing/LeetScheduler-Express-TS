@@ -21,7 +21,6 @@ export default (router: express.Router): void => {
 
     
     router.post('/users/oauth2/github/authenticate', async (req: Request, res: Response) => {
-            console.log("req.body",req.body)
             if(req.body === undefined || req.body.code === undefined){
                 return res.status(400).json({ message: 'Code is required' });
             }
@@ -42,14 +41,14 @@ export default (router: express.Router): void => {
 
     router.post('/users/testUserLogin', async (req: Request, res: Response) => {
         const emailObj = req.body;
-        console.log(`Logging in test user: ${emailObj.email}`);
         const email = emailObj.email;
     
         let user = await myDataSource.getRepository(User).findOneBy({ email: email });
         if (!user) {
-            console.log(`No such test user: ${email}`);
-            return res.status(404).json({ message: `No such test user: ${email}` });
+            user = myDataSource.getRepository(User).create({ email: email, login_method: 'local' });
+            await myDataSource.getRepository(User).save(user);
         }
+
     
         const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '30d' });
         const responseBody = { message: `Welcome, ${email}!`, token: token };

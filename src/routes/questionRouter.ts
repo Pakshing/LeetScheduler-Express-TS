@@ -11,7 +11,6 @@ export default (router = express.Router()): void => {
 
     router.get('/questions/find', async(req:Request, res:Response) => {
         const email = getEmailFromToken(req, process.env.JWT_SECRET);
-        console.log("email",email)
         const userRepository = myDataSource.getRepository(User);
         const questionRepository = myDataSource.getRepository(Question);
         if (!email){
