@@ -50,7 +50,7 @@ export default (router: express.Router): void => {
         }
 
     
-        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '30d' });
+        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
         const responseBody = { message: `Welcome, ${email}!`, token: token };
     
         return res.status(200).json(responseBody);
